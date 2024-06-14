@@ -9,6 +9,7 @@ import UIKit
 
 protocol TodoDelegate {
     var item: TodoList? { get set }
+    var index: Int! { get set }
     func saveTodos(data: String, isCompleted: Bool)
     func updateTodos(data: String)
 }
@@ -45,6 +46,10 @@ class ViewController: UIViewController, TodoDelegate {
 
 // MARK: - Table Service
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Delete") { _ , _ , _ in
             self.deleteTodos(index: indexPath.row)
@@ -146,8 +151,6 @@ extension ViewController {
         self.item = todos[index]
         self.index = index
         performSegue(withIdentifier: "gotoHell", sender: self)
-        self.item = nil
-        self.index = nil
     }
     
     func updateTodos(data: String) {

@@ -18,6 +18,13 @@ class AddVC: UIViewController {
         super.viewDidLoad()
         textView.text = delegate.item?.name
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.item = nil
+        delegate?.index = nil
+    }
+    
     @IBAction func addData(_ sender: Any) {
         if((delegate.item) != nil) {
             delegate.updateTodos(data: textView.text ?? "")
